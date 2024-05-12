@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM mcr.microsoft.com/devcontainers/universal:2
+FROM huggingface/transformers-pytorch-gpu
 WORKDIR /app
 COPY requirements.txt /app
-RUN pip install -U --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt

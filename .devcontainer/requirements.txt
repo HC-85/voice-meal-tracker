@@ -1,6 +1,3 @@
-scipy==1.11.4
-datasets==2.19.1
 gliner==0.1.13
 hnswlib==0.8.0
 sentence-transformers==2.7.0
-transformers==4.40.3

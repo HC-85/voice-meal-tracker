@@ -2,6 +2,9 @@ import torch
 from setup.data_setup import load_food_dataset, load_food_index
 from setup.model_setup import load_ner, load_sbert
 from inference.ner_inference import entity_prediction, parse_entities
+from inference.querying import query_food_batch
+from logging_.simple_log import txt_log
+
 
 txt = """
 150 grams of brown rice,
@@ -22,7 +25,9 @@ def main():
     #audio->txt
     entities = entity_prediction(ner, txt)
     foods = parse_entities(entities)
-    print(foods)
+    idxs = query_food_batch(sbert, index, foods)
+    txt_log(idxs)
+
 
 if __name__ == '__main__':
     main()
