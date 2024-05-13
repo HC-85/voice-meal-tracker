@@ -4,6 +4,7 @@ from setup.model_setup import load_ner, load_sbert
 from inference.ner_inference import entity_prediction, parse_entities
 from inference.querying import query_food_batch
 from logging_.simple_log import txt_log
+from logging_.retrieval import txt2df
 
 
 txt = """
@@ -28,6 +29,8 @@ def main():
     idxs = query_food_batch(sbert, index, foods)
     txt_log(idxs)
 
+    contents = txt2df('logging_/log.txt')
+    print(contents)
 
 if __name__ == '__main__':
     main()
