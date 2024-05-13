@@ -22,3 +22,4 @@ def parse_entities(entities):
         else:
             assert(0)
     return foods
+    
