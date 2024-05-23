@@ -31,8 +31,7 @@ def main():
     #txt_log(idxs)
     #contents = txt2df('logging_/log.txt')
     #print(contents)
-    print(":c")
     sql_log(idxs)
-
+     
 if __name__ == '__main__':
     main()
