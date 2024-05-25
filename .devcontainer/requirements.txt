@@ -1,3 +1,4 @@
 gliner==0.1.13
 hnswlib==0.8.0
 sentence-transformers==2.7.0
+twilio==9.1.0

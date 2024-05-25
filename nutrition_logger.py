@@ -5,7 +5,7 @@ from inference.ner_inference import entity_prediction, parse_entities
 from inference.querying import query_food_batch
 from logging_.simple_log import txt_log, sql_log
 from logging_.retrieval import txt2df
-
+from audio_input.fetching import 
 
 txt = """
 150 grams of brown rice,
@@ -28,10 +28,8 @@ def main():
     foods = parse_entities(entities)
     idxs = query_food_batch(sbert, index, foods)
     
-    #txt_log(idxs)
-    #contents = txt2df('logging_/log.txt')
-    #print(contents)
     sql_log(idxs)
-     
+
+
 if __name__ == '__main__':
     main()
