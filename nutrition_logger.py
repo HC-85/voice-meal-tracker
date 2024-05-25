@@ -5,7 +5,7 @@ from inference.ner_inference import entity_prediction, parse_entities
 from inference.querying import query_food_batch
 from logging_.simple_log import txt_log, sql_log
 from logging_.retrieval import txt2df
-from audio_input.fetching import 
+from audio_input.fetching import fetch_voicenotes
 
 txt = """
 150 grams of brown rice,
@@ -17,6 +17,7 @@ two fried chicken drumsticks from KFC
 
 
 def main():
+    fetch_voicenotes('/workspaces/Nutrition-Logger/audio_input/voicenotes')
     index = load_food_index()
     dataset = load_food_dataset()
     ner = load_ner()
