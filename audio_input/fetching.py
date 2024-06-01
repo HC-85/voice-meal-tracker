@@ -1,7 +1,18 @@
 from twilio.rest import Client
-from os import getenv, exists
+from os import getenv
+from os.path import exists
 import requests
 
+
+def clear_conversation():
+  account_sid = getenv('TWILIO_ACCOUNT_SID')
+  auth_token = getenv('TWILIO_AUTH_TOKEN')
+  client = Client(account_sid, auth_token)
+
+  messages = client.messages.list()
+  for msg in messages:
+    client.messages(msg.sid).delete()
+    print(f"Deleted message {message.sid}")
 
 def fetch_voicenotes(save_path:str):
   account_sid = getenv('TWILIO_ACCOUNT_SID')
@@ -13,7 +24,6 @@ def fetch_voicenotes(save_path:str):
   for msg in messages:
     if msg.num_media != "0":
       media_item = client.messages(msg.sid).media.list()[0]
-      media_item.sid
 
       media_url = f'https://api.twilio.com{media_item.uri}'.replace('.json', '')
       response = requests.get(media_url, auth=(account_sid, auth_token))

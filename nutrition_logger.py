@@ -7,6 +7,7 @@ from logging_.simple_log import txt_log, sql_log
 from logging_.retrieval import txt2df
 from audio_input.fetching import fetch_voicenotes
 
+
 txt = """
 150 grams of brown rice,
 half a gram of dried basil,
@@ -17,13 +18,12 @@ two fried chicken drumsticks from KFC
 
 
 def main():
-    fetch_voicenotes('/workspaces/Nutrition-Logger/audio_input/voicenotes')
     index = load_food_index()
     dataset = load_food_dataset()
     ner = load_ner()
     sbert = load_sbert()
     
-    #audio-retrieval
+    fetch_voicenotes('/workspaces/Nutrition-Logger/audio_input/voicenotes/')
     #audio->txt
     entities = entity_prediction(ner, txt)
     foods = parse_entities(entities)
