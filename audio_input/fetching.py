@@ -12,7 +12,7 @@ def clear_conversation():
   messages = client.messages.list()
   for msg in messages:
     client.messages(msg.sid).delete()
-    print(f"Deleted message {message.sid}")
+    print(f"Deleted message {msg.sid}")
 
 def fetch_voicenotes(save_path:str):
   account_sid = getenv('TWILIO_ACCOUNT_SID')
