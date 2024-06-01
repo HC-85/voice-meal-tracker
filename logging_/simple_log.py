@@ -2,6 +2,8 @@ from datetime import datetime, timezone, timedelta
 from os.path import exists
 from subprocess import run, CalledProcessError
 from tqdm import tqdm
+import sqlite3
+
 
 tz = timezone(timedelta(hours=-6))
 base_path = 'logging_/'
@@ -14,7 +16,24 @@ def txt_log(idxs):
             log_entry = [["timestamp", curr_time], ["food_idx", idx]]
             logfile.write(f'{log_entry},\n')  
 
-def sql_log(idxs):
+
+def sql_log(idxs, timestamp):
+    schema = "CREATE TABLE IF NOT EXISTS food_idxs (food_idx INTEGER, timestamp TEXT)"
+
+    with sqlite3.connect('food_log.db', isolation_level = 'DEFERRED') as conn:
+        cursor = conn.cursor()
+        cursor.execute(schema)
+
+        for idx in idxs:
+            cursor.execute('''
+            INSERT INTO food_idxs (food_idx, timestamp)
+            VALUES (?, ?)
+            ''', (idx, timestamp))
+
+        conn.commit()
+
+
+def sql_bash_log(idxs):
     print("Creating food_log.db ...")
     try:
         result = run([base_path + 'init_db.sh'], check=True, capture_output=True, text=True)  

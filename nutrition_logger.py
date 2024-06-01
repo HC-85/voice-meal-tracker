@@ -30,12 +30,13 @@ def main():
 
     for vn_file in listdir(audio_path):
         transcription = transcribe(whisper, sr, path_join(audio_path, vn_file), {"language": "english"})
-        print(transcription)
+        print('Transcript:\n')
+        print(transcription, '\n')
         entities = entity_prediction(ner, transcription)
         foods = parse_entities(entities)
         idxs = query_food_batch(sbert, index, foods)
         
-        sql_log(idxs)
+        sql_log(idxs, timestamp = vn_file[:16])
 
 
 if __name__ == '__main__':
