@@ -6,10 +6,10 @@ Goal: Effortlessly keep track of nutrition with your phone via voice.
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/HC-85/Nutrition-Logger)
 
 ## Status
-1. **Audio retrieval** -  *pending*
-   - TODO: Set up bot with Twilio
-2. **Audio to text** -  *pending*
-   - TODO: Find suitable voice-to-text model (Whisper?)
+1. **Audio retrieval**
+   - _Currently_: Voice notes are fetched via Twilio API sandbox.
+2. **Audio to text**
+   - _Currently_: Whisper (large-v3)
 3. **Text segmentation**:
    - _Currently_: GLiNER (large-v2.1)
    - TODO: Fine-tune to food-related labels.
@@ -21,7 +21,7 @@ Goal: Effortlessly keep track of nutrition with your phone via voice.
    (See preprocessing/preprocess.py)
    - TODO: explore using separate indexes and weighting.
 6. **Logging**:
-   - _Currently_: simply append lines to `log.txt` as `[timestamp, idx]`
+   - _Currently_: item indices and timestamps are logged to an SQLite database.
 7. **Log Inspection**:
    - _Currently_: Turn text file to DataFrame.
    - TODO: Deploy visualization with a Phoenix webpage or maybe a HuggingFace Space
