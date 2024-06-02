@@ -1,9 +1,25 @@
 # Nutrition Logger v0.1
 Goal: Effortlessly keep track of nutrition with your phone via voice.
 
-## Usage
-1. **Open repo in Codespaces**:\
+## **First-Time Setup**
+### <img src="https://www.svgrepo.com/show/354472/twilio-icon.svg" alt="Twilio Logo" height="15"> **Twilio Setup**
+- [Create a free Twilio account.](https://www.twilio.com/try-twilio)
+
+### <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Logo" height="15"> **Codespace Setup**
+- Open the [Twilio console](https://console.twilio.com/) and go to "Account Info".\
+- Open the [settings for Codespaces](https://github.com/settings/codespaces) and go to "Codespaces secrets".\
+- From the Twilio console, copy the "Account SID" and save it as `TWILIO_ACCOUNT_SID` in the secrets section.\
+- From the Twilio console, copy the "Auth Token" and save it as `TWILIO_AUTH_TOKEN` in the secrets section.\
+  
+**Note**: Don't forget to set repository access to `HC-85/Nutrition-Logger` for both secrets.
+
+## **Usage**
+- [Connect to the WhatsApp Sandbox](https://console.twilio.com/us1/develop/sms/try-it-out/whatsapp-learn).\
+- Send voice notes to the Twilio bot.\
+- Start the codespace:\
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/HC-85/Nutrition-Logger)
+
+**Note**: State your meals starting with a quantity (eg. "150 grams of chicken", "one slice of pizza", etc.).
 
 ## Status
 1. **Audio retrieval**
