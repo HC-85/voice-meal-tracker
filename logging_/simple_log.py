@@ -17,22 +17,6 @@ def txt_log(idxs):
             logfile.write(f'{log_entry},\n')  
 
 
-def sql_log(idxs, timestamp):
-    schema = "CREATE TABLE IF NOT EXISTS food_idxs (food_idx INTEGER, timestamp TEXT)"
-
-    with sqlite3.connect('food_log.db', isolation_level = 'DEFERRED') as conn:
-        cursor = conn.cursor()
-        cursor.execute(schema)
-
-        for idx in idxs:
-            cursor.execute('''
-            INSERT INTO food_idxs (food_idx, timestamp)
-            VALUES (?, ?)
-            ''', (idx, timestamp))
-
-        conn.commit()
-
-
 def sql_bash_log(idxs):
     print("Creating food_log.db ...")
     try:
@@ -51,3 +35,20 @@ def sql_bash_log(idxs):
         except CalledProcessError as e:
             print(f"Error: {e.stderr}")
             print(f"Return Code: {e.returncode}") 
+
+
+def sql_log(idxs, timestamp):
+    schema = """CREATE TABLE IF NOT EXISTS food_idxs (
+        food_idx INTEGER, 
+        FOREIGN KEY (food_idx) REFERENCES nutrition_table(id)
+        timestamp TEXT
+        )"""
+
+    with sqlite3.connect('food_log.db', isolation_level = 'DEFERRED') as conn:
+        cursor = conn.cursor()
+        cursor.execute(schema)
+
+        for idx in idxs:
+            cursor.execute('INSERT INTO food_idxs (food_idx, timestamp) VALUES (?, ?)', (idx, timestamp))
+
+        conn.commit()
