@@ -8,11 +8,18 @@
 	"runArgs": ["--device=/dev/net/tun"],
 	"features": {
 		"ghcr.io/devcontainers-contrib/features/apt-packages:1": {},
-		"ghcr.io/tailscale/codespace/tailscale": {}
+		"ghcr.io/tailscale/codespace/tailscale": {"version": "latest"}
 	},
 	"postCreateCommand": [
 		"chmod +x /workspaces/Nutrition-Logger/logging_/idx_logging.sh",
-		"chmod +x /workspaces/Nutrition-Logger/logging_/init_db.sh"
+		"chmod +x /workspaces/Nutrition-Logger/logging_/init_db.sh",
+		"sudo apt install openssh-client",
+		"cd /mnt",
+		"sudo mkdir local-machine",
+		"sudo chown codespace:codespace local-machine",
+		"export LOCAL_MACHINE_ADDRESS=$(tailscale status | grep -v 'codespaces' | awk '{print $1}')",
+		"export LOCAL_MACHINE_USER=$(tailscale status | grep -v 'codespaces' | awk '{print $3}')",
+		"sshfs {$LOCAL_MACHINE_USER}{$LOCAL_MACHINE_ADDRESS}:/home /mnt/local_machine"
 	]
 	
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
