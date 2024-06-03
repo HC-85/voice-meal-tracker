@@ -1,16 +1,20 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/universal
+
 {
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
+	"runArgs": ["--device=/dev/net/tun"],
 	"features": {
-		"ghcr.io/devcontainers-contrib/features/apt-packages:1": {}
+		"ghcr.io/devcontainers-contrib/features/apt-packages:1": {},
+		"ghcr.io/tailscale/codespace/tailscale": {}
 	},
 	"postCreateCommand": [
 		"chmod +x /workspaces/Nutrition-Logger/logging_/idx_logging.sh",
 		"chmod +x /workspaces/Nutrition-Logger/logging_/init_db.sh"
 	]
+	
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 	// Configure tool-specific properties.
