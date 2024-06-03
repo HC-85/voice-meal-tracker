@@ -16,7 +16,7 @@ Goal: Effortlessly keep track of nutrition with your phone via voice.
 ## **Usage**
 - [Connect to the WhatsApp Sandbox](https://console.twilio.com/us1/develop/sms/try-it-out/whatsapp-learn).
 - Send voice notes to the Twilio bot.
-- Start the codespace:
+- Start the codespace:\
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/HC-85/Nutrition-Logger)
 
 **Note**: State your meals starting with a quantity (eg. "150 grams of chicken", "one slice of pizza", etc.).
