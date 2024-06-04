@@ -40,14 +40,14 @@ def sql_bash_log(idxs):
 def sql_log(idxs, timestamp):
     schema = """CREATE TABLE IF NOT EXISTS food_idxs (
         food_idx INTEGER, 
+        timestamp TEXT,
         FOREIGN KEY (food_idx) REFERENCES nutrition_table(id)
-        timestamp TEXT
         )"""
 
     with sqlite3.connect('/mnt/local/food_log.db', isolation_level = 'DEFERRED') as conn:
         cursor = conn.cursor()
         cursor.execute(schema)
-
+        
         for idx in idxs:
             cursor.execute('INSERT INTO food_idxs (food_idx, timestamp) VALUES (?, ?)', (idx, timestamp))
 

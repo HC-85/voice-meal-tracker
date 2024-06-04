@@ -11,7 +11,8 @@
 		"ghcr.io/tailscale/codespace/tailscale": {"version": "latest"}
 	},
 	"postCreateCommand": [
-		"chmod +x /workspaces/Nutrition-Logger/mount_local.sh"
+		"chmod +x /workspaces/Nutrition-Logger/mount_local.sh",
+		"pip uninstall -y scipy"
 	]
 	
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.

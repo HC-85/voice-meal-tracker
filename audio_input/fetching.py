@@ -22,8 +22,8 @@ def fetch_voicenotes(save_path:str):
   account_sid = getenv('TWILIO_ACCOUNT_SID')
   auth_token = getenv('TWILIO_AUTH_TOKEN')
   client = Client(account_sid, auth_token)
-
   messages = client.messages.list()
+  print("Fetching voicenotes...")
   for msg in messages:
     if msg.num_media != "0":
       timestamp = msg.date_sent.astimezone(tz).strftime("%Y-%m-%d_%H-%M")

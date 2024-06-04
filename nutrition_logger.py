@@ -9,17 +9,18 @@ from audio_input.fetching import fetch_voicenotes
 from audio_input.transcription import transcribe
 from os import listdir
 from os.path import join as path_join
-import pdb
+from os.path import exists
 
 audio_path = '/workspaces/Nutrition-Logger/audio_input/voicenotes/'
 def main():
     index = load_food_index()
     dataset = load_food_dataset()
-    create_nutrition_table(dataset)
+    if not exists("/mnt/local/food_log.db"):
+        create_nutrition_table(dataset)
+    
     whisper, sr = load_whisper()
     ner = load_ner()
     sbert = load_sbert()
-    
 
     fetch_voicenotes(save_path = audio_path)
 

@@ -1,3 +1,4 @@
+scipy<1.13
 gliner==0.1.13
 hnswlib==0.8.0
 sentence-transformers==2.7.0
@@ -88,7 +89,6 @@ sacrebleu==1.5.1
 sacremoses==0.1.1
 safetensors==0.4.3
 scikit-learn==1.5.0
-scipy<1.13
 sentencepiece==0.2.0
 six==1.16.0
 smmap==5.0.1

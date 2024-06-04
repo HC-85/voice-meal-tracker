@@ -22,10 +22,11 @@ def create_nutrition_table(dataset):
         energy_100g TEXT
         )"""
 
-    with sqlite3.connect('food_log.db', isolation_level = 'DEFERRED') as conn:
+    with sqlite3.connect('/mnt/local/food_log.db', isolation_level = 'DEFERRED') as conn:
         cursor = conn.cursor()
         cursor.execute(schema)
 
+        print("Creating nutrition_table...")
         for item in tqdm(dataset):
             cursor.execute('INSERT INTO nutrition_table (product_name, energy_100g) VALUES (?, ?)', 
             (item['product_name'], item['energy_100g']))

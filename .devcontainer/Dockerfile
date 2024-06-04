@@ -24,5 +24,6 @@ RUN apt-get update
 RUN apt-get install openssh-client
 RUN apt-get install -y sshfs
 
-COPY requirements.txt /app  
+COPY requirements.txt /app
+RUN pip uninstall -y scipy
 RUN pip install --no-cache-dir -r /app/requirements.txt
