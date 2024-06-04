@@ -3,18 +3,7 @@ from os import getenv
 from os.path import exists
 import requests
 from datetime import datetime, timezone, timedelta
-import pdb
 
-
-def clear_conversation():
-  account_sid = getenv('TWILIO_ACCOUNT_SID')
-  auth_token = getenv('TWILIO_AUTH_TOKEN')
-  client = Client(account_sid, auth_token)
-
-  messages = client.messages.list()
-  for msg in messages:
-    client.messages(msg.sid).delete()
-    print(f"Deleted message {msg.sid}")
 
 def fetch_voicenotes(save_path:str):
   tz = timezone(timedelta(hours=-6))
