@@ -47,8 +47,7 @@ def sql_log(idxs, timestamp):
     with sqlite3.connect('/mnt/local/food_log.db', isolation_level = 'DEFERRED') as conn:
         cursor = conn.cursor()
         cursor.execute(schema)
-        
         for idx in idxs:
-            cursor.execute('INSERT INTO food_idxs (food_idx, timestamp) VALUES (?, ?)', (idx, timestamp))
+            cursor.execute('INSERT INTO food_idxs (food_idx, timestamp) VALUES (?, ?)', (idx[0], timestamp))
 
         conn.commit()
