@@ -1,4 +1,4 @@
-# Nutrition Logger v0.9
+# Voice Meal Tracker v0.9
 Track your meals through voicenotes.
 
 ## **First-Time Setup**
@@ -21,20 +21,20 @@ sudo systemctl start sshd
 - From the Twilio console, copy the "Auth Token" and save it as `TWILIO_AUTH_TOKEN` in the secrets section.
 - (Linux) Save your username as `$LOCAL_USERNAME` in the secrets section.
   
-**Note**: Don't forget to set repository access to `HC-85/Nutrition-Logger` for all secrets.
+**Note**: Don't forget to set repository access to `HC-85/voice-meal-tracker` for all secrets.
 
 ## **Usage**
 - [Connect to the WhatsApp Sandbox](https://console.twilio.com/us1/develop/sms/try-it-out/whatsapp-learn).
 - Send voice notes to the Twilio bot.
 - When ready to log, start the codespace:\
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/HC-85/Nutrition-Logger)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/HC-85/voice-meal-tracker)
 - Mount your local database:
 ```bash
 ./mount_local.sh <local_source_directory>
 ```
 - Run the main program:
 ```bash
-python3 nutrition-logger.py
+python3 voice-meal-tracker.py
 ```
 
 
