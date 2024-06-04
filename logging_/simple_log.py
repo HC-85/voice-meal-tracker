@@ -48,6 +48,6 @@ def sql_log(idxs, timestamp):
         cursor = conn.cursor()
         cursor.execute(schema)
         for idx in idxs:
-            cursor.execute('INSERT INTO food_idxs (food_idx, timestamp) VALUES (?, ?)', (idx[0], timestamp))
+            cursor.execute('INSERT INTO food_idxs (food_idx, timestamp) VALUES (?, ?)', (idx[0] + 1 , timestamp))
 
         conn.commit()

@@ -3,15 +3,14 @@ from setup.data_setup import load_food_dataset, load_food_index, create_nutritio
 from setup.model_setup import load_ner, load_sbert, load_distil_whisper, load_whisper
 from inference.ner_inference import entity_prediction, parse_entities
 from inference.querying import query_food_batch
-from logging_.simple_log import txt_log, sql_log
-from logging_.retrieval import txt2df
+from logging_.simple_log import sql_log
+from logging_.retrieval import display_log
 from audio_input.fetching import fetch_voicenotes
 from audio_input.transcription import transcribe
 from os import listdir
 from os.path import join as path_join
 from os.path import exists
 
-import pdb
 
 audio_path = '/workspaces/Nutrition-Logger/audio_input/voicenotes/'
 def main():
@@ -46,6 +45,7 @@ def main():
         
         sql_log(idxs, timestamp = vn_file[:16])
 
+    display_log()
 
 if __name__ == '__main__':
     main()
