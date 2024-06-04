@@ -16,9 +16,13 @@
     
 FROM mcr.microsoft.com/devcontainers/universal:2-linux
 # ONLY IMAGE I'VE FOUND THAT WORKS WITH TAILSCALE ???
-# FROM huggingface/transformers-torch-light
-# FROM huggingface/transformers-pytorch-gpu
+#FROM huggingface/transformers-torch-light
 WORKDIR /app
-COPY requirements.txt /app   
-RUN apt install -y sshfs
-RUN pip install --no-cache-dir -r requirements.txt
+
+
+RUN apt-get update 
+RUN apt-get install openssh-client
+RUN apt-get install -y sshfs
+
+COPY requirements.txt /app  
+RUN pip install --no-cache-dir -r /app/requirements.txt

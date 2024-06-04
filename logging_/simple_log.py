@@ -44,7 +44,7 @@ def sql_log(idxs, timestamp):
         timestamp TEXT
         )"""
 
-    with sqlite3.connect('food_log.db', isolation_level = 'DEFERRED') as conn:
+    with sqlite3.connect('/mnt/local/food_log.db', isolation_level = 'DEFERRED') as conn:
         cursor = conn.cursor()
         cursor.execute(schema)
 
