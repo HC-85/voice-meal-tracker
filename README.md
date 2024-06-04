@@ -1,15 +1,25 @@
 # Nutrition Logger v0.9
-Goal: Effortlessly keep track of nutrition with your phone via voice.
+Track your meals through voicenotes.
 
 ## **First-Time Setup**
 ### <img src="https://www.svgrepo.com/show/354472/twilio-icon.svg" alt="Twilio Logo" height="15"> **Twilio Setup**
 - [Create a free Twilio account.](https://www.twilio.com/try-twilio)
+
+### **Tailscale Setup**
+- [Create an account](https://login.tailscale.com/start).
+- [Install Tailscale locally](https://login.tailscale.com/admin/machines).
+- Install and start OpenSSH: (Ubuntu)
+```bash
+sudo apt install openssh-server
+sudo systemctl start sshd
+```
 
 ### <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Logo" height="15"> **Codespace Setup**
 - Open the [Twilio console](https://console.twilio.com/) and go to "Account Info".
 - Open the [settings for Codespaces](https://github.com/settings/codespaces) and go to "Codespaces secrets".
 - From the Twilio console, copy the "Account SID" and save it as `TWILIO_ACCOUNT_SID` in the secrets section.
 - From the Twilio console, copy the "Auth Token" and save it as `TWILIO_AUTH_TOKEN` in the secrets section.
+- (Linux) Save your username as `$LOCAL_USERNAME` in the secrets section.
   
 **Note**: Don't forget to set repository access to `HC-85/Nutrition-Logger` for both secrets.
 
