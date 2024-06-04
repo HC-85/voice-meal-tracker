@@ -1,4 +1,4 @@
-# Nutrition Logger v0.1
+# Nutrition Logger v0.9
 Goal: Effortlessly keep track of nutrition with your phone via voice.
 
 ## **First-Time Setup**
@@ -25,7 +25,8 @@ Goal: Effortlessly keep track of nutrition with your phone via voice.
 1. **Audio retrieval**
    - _Currently_: Voice notes are fetched via Twilio API sandbox.
 2. **Audio to text**
-   - _Currently_: Whisper (large-v3)
+   - _Currently_: Whisper (tiny) (large-v3 fails)
+   - TODO: Fix large-v3 failure. (Probably storage)
 3. **Text segmentation**:
    - _Currently_: GLiNER (large-v2.1)
    - TODO: Fine-tune to food-related labels.
@@ -37,9 +38,12 @@ Goal: Effortlessly keep track of nutrition with your phone via voice.
    (See preprocessing/preprocess.py)
    - TODO: explore using separate indexes and weighting.
 6. **Logging**:
-   - _Currently_: item indices and timestamps are logged to an SQLite database.
+   - _Currently_: item indices and timestamps are logged to a local SQLite database through Tailscale and sshfs.
 7. **Log Inspection**:
-   - _Currently_: Turn text file to DataFrame.
-   - TODO: Deploy visualization with a Phoenix webpage or maybe a HuggingFace Space
+   - _Currently_: script displays PrettyTable
+   - TODO: Deploy visualization with a Phoenix webpage
 8. **Reinforcement** - *pending*
    - TODO: Allow user to correct entries and use these corrections for reinforcement.
+
+Other TODOs:
+- Find smaller base image that works with the project (currently using universal).
