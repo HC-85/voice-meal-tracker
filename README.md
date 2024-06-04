@@ -5,7 +5,7 @@ Track your meals through voicenotes.
 ### <img src="https://www.svgrepo.com/show/354472/twilio-icon.svg" alt="Twilio Logo" height="15"> **Twilio Setup**
 - [Create a free Twilio account.](https://www.twilio.com/try-twilio)
 
-### **Tailscale Setup**
+### **Database Connection Setup**
 - [Create an account](https://login.tailscale.com/start).
 - [Install Tailscale locally](https://login.tailscale.com/admin/machines).
 - Install and start OpenSSH: (Ubuntu)
@@ -21,13 +21,22 @@ sudo systemctl start sshd
 - From the Twilio console, copy the "Auth Token" and save it as `TWILIO_AUTH_TOKEN` in the secrets section.
 - (Linux) Save your username as `$LOCAL_USERNAME` in the secrets section.
   
-**Note**: Don't forget to set repository access to `HC-85/Nutrition-Logger` for both secrets.
+**Note**: Don't forget to set repository access to `HC-85/Nutrition-Logger` for all secrets.
 
 ## **Usage**
 - [Connect to the WhatsApp Sandbox](https://console.twilio.com/us1/develop/sms/try-it-out/whatsapp-learn).
 - Send voice notes to the Twilio bot.
-- Start the codespace:\
+- When ready to log, start the codespace:\
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/HC-85/Nutrition-Logger)
+- Mount your local database:
+```bash
+./mount_local.sh <local_source_directory>
+```
+- Run the main program:
+```bash
+python3 nutrition-logger.py
+```
+
 
 **Note**: State your meals starting with a quantity (eg. "150 grams of chicken", "one slice of pizza", etc.).
 
