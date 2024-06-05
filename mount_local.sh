@@ -9,9 +9,7 @@ fi
 sudo mkdir -p /mnt/local
 sudo chown codespace:codespace /mnt/local
 
-sudo tailscale up --accept-routes --authkey {$TAILSCALE_KEY}
-
-chmod +x /workspaces/Nutrition-Logger/mount_local.sh
+sudo tailscale up --accept-routes --authkey $TAILSCALE_KEY
 
 export LOCAL_IP_ADDRESS=$(tailscale status | grep -v 'codespaces' | awk '{print $1}')
 
