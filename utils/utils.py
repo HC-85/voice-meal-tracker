@@ -33,6 +33,6 @@ def drop_log():
 
 
 def clear_vn_cache():
-    dir = "audio_input/voicenotes"
+    dir = "audio/voicenotes"
     for filename in listdir(dir):
         remove_file(path_join(dir, filename))

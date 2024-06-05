@@ -32,5 +32,3 @@ def fetch_voicenotes(save_path:str):
 
         print(f'File saved: {file_path}')
         print('Length: ', response.headers['Content-Length'])
-        #print('Date: ', response.headers['Date'])
-        #print('Last-Modified: ', response.headers['Last-Modified'], '\n')
