@@ -1,26 +1,25 @@
 from gliner import GLiNER
 from sentence_transformers import SentenceTransformer
 import torch
-from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor, pipeline
-#import transformers
-from transformers import WhisperProcessor, WhisperForConditionalGeneration, pipeline
+from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor, WhisperProcessor, \
+                         WhisperForConditionalGeneration, pipeline
 #transformers.__version__ = transformers.__version__[:-5] #'4.41.0.dev0' -> '4.41.0'
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-def load_ner():
+def load_ner() -> GLiNER:
     print("Loading GLiNER...")
     model_id = "urchade/gliner_large-v2.1"
     model_ner = GLiNER.from_pretrained(model_id, device = device)
     return model_ner
 
-def load_sbert():
+def load_sbert() -> SentenceTransformer:
     print("Loading SBERT...")
     model_id = "all-MiniLM-L6-v2"
     model_sbert = SentenceTransformer(model_id, device = device)
     return model_sbert
 
-def load_whisper():
+def load_whisper() -> pipeline:
     print("Loading Whisper...")
     model_id = "openai/whisper-tiny"
     model_whisper = WhisperForConditionalGeneration.from_pretrained(model_id)
@@ -49,7 +48,7 @@ def load_whisper():
     return pipe_whisper, 16_000
 
 
-def load_distil_whisper():
+def load_distil_whisper() -> pipeline:
     print("Loading Distil-Whisper...")
     model_id = "distil-whisper/distil-large-v3"
     torch_dtype = torch.float16 if torch.cuda.is_available() else torch.float32

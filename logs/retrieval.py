@@ -1,7 +1,7 @@
 import sqlite3
 from prettytable import PrettyTable
 
-def display_log():
+def display_log() -> None:
     query=  """
             SELECT 
                 n.product_name, 

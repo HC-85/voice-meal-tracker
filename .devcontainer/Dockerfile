@@ -9,5 +9,5 @@ RUN apt-get update && \
     apt-get install -y openssh-client sshfs
 
 COPY requirements.txt /app
-RUN pip install --no-cache-dir -r /app/requirements.txt
 RUN pip uninstall -y scipy
+RUN pip install --no-cache-dir -r /app/requirements.txt

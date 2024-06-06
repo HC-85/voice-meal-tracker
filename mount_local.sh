@@ -6,6 +6,9 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
+sudo mkdir -p /workspaces/Nutrition-Logger/audio/voicenotes
+pip uninstall -y scipy
+
 sudo mkdir -p /mnt/local
 sudo chown codespace:codespace /mnt/local
 

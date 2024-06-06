@@ -1,7 +1,8 @@
 from tqdm import tqdm
 import sqlite3
+from typing import List
 
-def sql_log(idxs, timestamp):
+def sql_log(idxs:List[List[int]], timestamp:str) -> None:
     schema = """CREATE TABLE IF NOT EXISTS food_idxs (
         food_idx INTEGER, 
         timestamp TEXT,

@@ -1,4 +1,4 @@
-from setup.data_setup import load_food_index, create_nutrition_table
+from setup.data_setup import load_food_index, create_nutrition_table, load_food_dataset
 from setup.model_setup import load_ner, load_sbert, load_whisper
 
 from audio.fetching import fetch_voicenotes
@@ -10,22 +10,21 @@ from encoding.querying import query_food_batch
 from logs.db_logging import sql_log
 from logs.retrieval import display_log
 
-from os import listdir
+from os import listdir, getcwd
 from os.path import join as path_join
 from os.path import exists
 
 import pdb
 
-audio_path = 'audio/voicenotes'
-def main():
-    pdb.set_trace()
+audio_path = path_join(getcwd(), 'audio/voicenotes')
+def main() -> None:
     index = load_food_index()
-    _ = create_nutrition_table()
+    dataset = load_food_dataset()
+    create_nutrition_table(dataset)
     
     whisper, sr = load_whisper()
     ner = load_ner()
     sbert = load_sbert()
-
     fetch_voicenotes(save_path = audio_path)
 
     for vn_file in listdir(audio_path):

@@ -1,22 +1,27 @@
-from datasets import load_dataset
+from datasets import load_dataset, Dataset
 from huggingface_hub import hf_hub_download
 import pickle
 import sqlite3
 from tqdm import tqdm
 from os.path import exists
+from hnswlib import Index
+from typing import Union
 
-def load_food_index():
+
+def load_food_index() -> Index:
     food_index_path = hf_hub_download(repo_id="HC-85/open-food-facts", filename="food-index.pkl",  repo_type="dataset")
     with open(food_index_path, 'rb') as f:
         food_index = pickle.load(f)
+
     return food_index
 
+def load_food_dataset() -> Dataset:
+    dataset = load_dataset('HC-85/open-food-facts', 'reduced')['train']
+    dataset = dataset.filter(lambda x: [y == 'en' for y in x['lang']], batched = True)
+    return dataset
 
-def create_nutrition_table():
+def create_nutrition_table(dataset:Dataset) -> None:
     if not exists("/mnt/local/food_log.db"):
-        dataset = load_dataset('HC-85/open-food-facts', 'reduced')['train']
-        dataset = dataset.filter(lambda x: [y == 'en' for y in x['lang']], batched = True)
-
         schema = """CREATE TABLE IF NOT EXISTS nutrition_table (
             id INTEGER PRIMARY KEY,
             product_name TEXT, 

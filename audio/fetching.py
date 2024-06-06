@@ -3,9 +3,11 @@ from os import getenv
 from os.path import exists
 import requests
 from datetime import datetime, timezone, timedelta
+from os.path import join as path_join
 
+import pdb
 
-def fetch_voicenotes(save_path:str):
+def fetch_voicenotes(save_path:str) -> None:
   tz = timezone(timedelta(hours=-6))
 
   account_sid = getenv('TWILIO_ACCOUNT_SID')
@@ -24,9 +26,11 @@ def fetch_voicenotes(save_path:str):
       if response.headers['Content-Type'].startswith('audio/'):  
         file_extension = response.headers['Content-Type'].split('/')[1]  
         
-        if exists(file_path := save_path + f'{timestamp}_{media_item.sid[:5]}.{file_extension}'):
+        if exists(file_path := path_join(save_path, f'{timestamp}_{media_item.sid[:5]}.{file_extension}')):
           continue
 
+
+        pdb.set_trace()
         with open(file_path, 'wb') as f:
             f.write(response.content)
 
