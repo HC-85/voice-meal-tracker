@@ -11,32 +11,32 @@ from logs.db_logging import sql_log
 from logs.retrieval import display_log
 
 from os import listdir, getcwd
-from os.path import join as path_join
-from os.path import exists
+from logs.retrieval import display_log
 
+from os import listdir, getcwd
 import pdb
-
+from os.path import join as path_join
 audio_path = path_join(getcwd(), 'audio/voicenotes')
 def main() -> None:
+import pdb
+
+    create_nutrition_table(dataset)
     index = load_food_index()
     dataset = load_food_dataset()
     create_nutrition_table(dataset)
     
-    whisper, sr = load_whisper()
     ner = load_ner()
     sbert = load_sbert()
     fetch_voicenotes(save_path = audio_path)
 
     for vn_file in listdir(audio_path):
         transcription = transcribe(whisper, sr, path_join(audio_path, vn_file), {"language": "english"})
-        print('Transcript:')
-        print(transcription, '\n')
 
         foods = segment_text(ner, transcription)
         print('Foods:')
         print(foods)
         
-        idxs = query_food_batch(sbert, index, foods, k=3)
+        
         for food, idx in zip(foods, idxs):
             predictions = []
             for food_id in idx:
