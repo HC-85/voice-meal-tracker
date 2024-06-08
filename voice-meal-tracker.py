@@ -11,11 +11,16 @@ from logs.db_logging import sql_log
 from logs.retrieval import display_log
 
 from os import listdir, getcwd
+from logs.retrieval import display_log
 
+from os import listdir, getcwd
 import pdb
+from os.path import join as path_join
 audio_path = path_join(getcwd(), 'audio/voicenotes')
 def main() -> None:
+import pdb
 
+    create_nutrition_table(dataset)
     index = load_food_index()
     dataset = load_food_dataset()
     create_nutrition_table(dataset)
