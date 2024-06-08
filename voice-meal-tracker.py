@@ -1,4 +1,3 @@
-import torch
 from setup.data_setup import load_food_dataset, load_food_index, create_nutrition_table
 from setup.model_setup import load_ner, load_sbert, load_distil_whisper, load_whisper
 from inference.ner_inference import entity_prediction, parse_entities

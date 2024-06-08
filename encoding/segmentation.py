@@ -1,10 +1,9 @@
-def entity_prediction(model_ner, text):
+from gliner import GLiNER
+
+
+def segment_text(model_ner:GLiNER, text:str) -> dict:
     entity_types = ['food', 'ingredient', 'brand', 'restaurant', 'measurement or quantity', 'numeral']
     entities = model_ner.predict_entities(text, entity_types, threshold=0.4)
-    return entities
-    
-
-def parse_entities(entities):
     foods = []
     for entity in entities:
         match = entity['label']
