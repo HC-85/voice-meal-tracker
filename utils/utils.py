@@ -36,3 +36,4 @@ def clear_vn_cache():
     dir = "audio/voicenotes"
     for filename in listdir(dir):
         remove_file(path_join(dir, filename))
+        

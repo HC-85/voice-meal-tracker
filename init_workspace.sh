@@ -6,8 +6,13 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
+scipy_version=$(python3 -c "import scipy; print(scipy.__version__)")
+
+if [ "$scipy_version" == "1.13.1" ]; then
+  pip uninstall -y scipy > /dev/null
+fi
+
 sudo mkdir -p /workspaces/Nutrition-Logger/audio/voicenotes
-pip uninstall -y scipy
 
 sudo mkdir -p /mnt/local
 sudo chown codespace:codespace /mnt/local

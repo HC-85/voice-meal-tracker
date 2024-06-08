@@ -5,7 +5,6 @@ import requests
 from datetime import datetime, timezone, timedelta
 from os.path import join as path_join
 
-import pdb
 
 def fetch_voicenotes(save_path:str) -> None:
   tz = timezone(timedelta(hours=-6))
@@ -30,7 +29,6 @@ def fetch_voicenotes(save_path:str) -> None:
           continue
 
 
-        pdb.set_trace()
         with open(file_path, 'wb') as f:
             f.write(response.content)
 
