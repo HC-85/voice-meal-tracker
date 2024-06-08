@@ -15,6 +15,7 @@ from os import listdir, getcwd
 import pdb
 audio_path = path_join(getcwd(), 'audio/voicenotes')
 def main() -> None:
+
     index = load_food_index()
     dataset = load_food_dataset()
     create_nutrition_table(dataset)
