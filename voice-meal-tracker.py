@@ -30,6 +30,7 @@ def main() -> None:
         print('Foods:')
         print(foods)
         
+        
         for food, idx in zip(foods, idxs):
             predictions = []
             for food_id in idx:
