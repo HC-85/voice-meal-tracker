@@ -1,15 +1,51 @@
-# Nutrition Logger v0.1
-Goal: Effortlessly keep track of nutrition with your phone via voice.
+# Voice Meal Tracker v0.9
+Track your meals through voicenotes.
 
-## Usage
-1. **Open repo in Codespaces**:\
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/HC-85/Nutrition-Logger)
+## **First-Time Setup**
+### <img src="https://www.svgrepo.com/show/354472/twilio-icon.svg" alt="Twilio Logo" height="15"> **Twilio Setup**
+- [Create a free Twilio account.](https://www.twilio.com/try-twilio)
+
+### **Database Connection Setup**
+- [Create an account](https://login.tailscale.com/start).
+- [Install Tailscale locally](https://login.tailscale.com/admin/machines).
+- Install and start OpenSSH: (Ubuntu)
+```bash
+sudo apt install openssh-server
+sudo systemctl start sshd
+```
+
+### <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Logo" height="15"> **Codespace Setup**
+- Open the [Twilio console](https://console.twilio.com/) and go to "Account Info".
+- Open the [settings for Codespaces](https://github.com/settings/codespaces) and go to "Codespaces secrets".
+- From the Twilio console, copy the "Account SID" and save it as `TWILIO_ACCOUNT_SID` in the secrets section.
+- From the Twilio console, copy the "Auth Token" and save it as `TWILIO_AUTH_TOKEN` in the secrets section.
+- (Linux) Save your username as `$LOCAL_USERNAME` in the secrets section.
+  
+**Note**: Don't forget to set repository access to `HC-85/voice-meal-tracker` for all secrets.
+
+## **Usage**
+- [Connect to the WhatsApp Sandbox](https://console.twilio.com/us1/develop/sms/try-it-out/whatsapp-learn).
+- Send voice notes to the Twilio bot.
+- When ready to log, start the codespace:\
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/HC-85/voice-meal-tracker)
+- Mount your local database:
+```bash
+./mount_local.sh <local_source_directory>
+```
+- Run the main program:
+```bash
+python3 voice-meal-tracker.py
+```
+
+
+**Note**: State your meals starting with a quantity (eg. "150 grams of chicken", "one slice of pizza", etc.).
 
 ## Status
-1. **Audio retrieval** -  *pending*
-   - TODO: Set up bot with Twilio
-2. **Audio to text** -  *pending*
-   - TODO: Find suitable voice-to-text model (Whisper?)
+1. **Audio retrieval**
+   - _Currently_: Voice notes are fetched via Twilio API sandbox.
+2. **Audio to text**
+   - _Currently_: Whisper (tiny) (large-v3 fails)
+   - TODO: Fix large-v3 failure. (Probably storage)
 3. **Text segmentation**:
    - _Currently_: GLiNER (large-v2.1)
    - TODO: Fine-tune to food-related labels.
@@ -21,9 +57,12 @@ Goal: Effortlessly keep track of nutrition with your phone via voice.
    (See preprocessing/preprocess.py)
    - TODO: explore using separate indexes and weighting.
 6. **Logging**:
-   - _Currently_: simply append lines to `log.txt` as `[timestamp, idx]`
+   - _Currently_: item indices and timestamps are logged to a local SQLite database through Tailscale and sshfs.
 7. **Log Inspection**:
-   - _Currently_: Turn text file to DataFrame.
-   - TODO: Deploy visualization with a Phoenix webpage or maybe a HuggingFace Space
+   - _Currently_: script displays PrettyTable
+   - TODO: Deploy visualization with a Phoenix webpage
 8. **Reinforcement** - *pending*
    - TODO: Allow user to correct entries and use these corrections for reinforcement.
+
+Other TODOs:
+- Find smaller base image that works with the project (currently using universal).
