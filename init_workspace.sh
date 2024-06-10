@@ -12,13 +12,7 @@ if [ "$scipy_version" == "1.13.1" ]; then
   pip uninstall -y scipy > /dev/null
 fi
 
-sudo mkdir -p /workspaces/Nutrition-Logger/audio/voicenotes
-
-scipy_version=$(python3 -c "import scipy; print(scipy.__version__)")
-
-if [ "$scipy_version" == "1.13.1" ]; then
-sudo tailscale up --accept-routes --authkey $TAILSCALE_KEY
-sudo mkdir -p /workspaces/Nutrition-Logger/audio/voicenotes
+sudo mkdir -p /workspaces/voice-meal-tracker/audio/voicenotes
 
 sudo mkdir -p /mnt/local
 sudo chown codespace:codespace /mnt/local
