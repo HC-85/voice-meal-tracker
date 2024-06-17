@@ -61,7 +61,7 @@ python3 voice-meal-tracker.py
 7. **Log Inspection**:
    - _Currently_: script displays PrettyTable
    - TODO: Deploy visualization with a Phoenix webpage
-8. **Reinforcement** - *pending*
+8. **Online Learning** - *pending*
    - TODO: Allow user to correct entries and use these corrections for reinforcement.
 
 Other TODOs:
