@@ -1,4 +1,4 @@
-# Voice Meal Tracker v0.9
+# Voice Meal Tracker v1.0
 Track your meals through voicenotes.
 
 ## **First-Time Setup**
@@ -62,7 +62,13 @@ python3 voice-meal-tracker.py
    - _Currently_: script displays PrettyTable
    - TODO: Deploy visualization with a Phoenix webpage
 8. **Online Learning** - *pending*
-   - TODO: Allow user to correct entries and use these corrections for reinforcement.
+   - TODO: Allow user to correct entries and use these corrections to keep learning.
 
 Other TODOs:
 - Find smaller base image that works with the project (currently using universal).
+- Add Makefile for automation.
+- Add tests with pytest.
+- Communicate processes with internal APIs using Flask.
+- Add option to instead use GCP to store the database and write to it
+- Try replacing GLiNER with a sentence-to-sentence model whose output can be easily parsed.
+- Develop a complete interface with Phoenix.
