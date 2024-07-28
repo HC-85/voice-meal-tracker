@@ -1,4 +1,4 @@
-# Voice Meal Tracker v1.0
+# Voice Meal Tracker v0.9
 Track your meals through voicenotes.
 
 ## **First-Time Setup**
