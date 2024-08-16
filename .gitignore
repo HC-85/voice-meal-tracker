@@ -2,4 +2,4 @@
 *.txt
 *.db
 *.ogg
-voicenotes/fetched/*
+voicenotes/vn_cache/*

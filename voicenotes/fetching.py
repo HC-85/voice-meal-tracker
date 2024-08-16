@@ -65,7 +65,7 @@ def get_timestamp(message:MessageInstance, tz:Union[timezone, str]=None)->str:
    return timestamp  
 
 
-def extract_audio(message:MessageInstance, client:Client, cache_dir:str='voicenotes/fetched') -> str:
+def extract_audio(message:MessageInstance, client:Client, cache_dir:str='voicenotes/vn_cache') -> str:
    media_item = client.messages(message.sid).media.list()[0]
    media_url = f'https://api.twilio.com{media_item.uri}'.replace('.json', '')
    response = requests_get(media_url, auth=(client.account_sid, client.password))
@@ -103,7 +103,7 @@ def fetch_voicenotes(client:Client=None)->List[str]:
    return log
 
 
-def clear_cache(cache_dir:str='voicenotes/fetched') -> List[str]:
+def clear_cache(cache_dir:str='voicenotes/vn_cache') -> List[str]:
    log = []
    for filename in listdir(cache_dir):
       try:
@@ -115,7 +115,7 @@ def clear_cache(cache_dir:str='voicenotes/fetched') -> List[str]:
 
 
 ### ASYNC ###
-async def extract_audio_async(session:ClientSession, message:MessageInstance, client:Client, cache_dir:str='voicenotes/fetched'):
+async def extract_audio_async(session:ClientSession, message:MessageInstance, client:Client, cache_dir:str='voicenotes/vn_cache'):
    media_item = client.messages(message.sid).media.list()[0]
    media_url = f'https://api.twilio.com{media_item.uri}'.replace('.json', '')
    auth = BasicAuth(client.account_sid, client.password)
