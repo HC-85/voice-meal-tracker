@@ -1,12 +1,17 @@
-from twilio.rest import Client
-from twilio.rest.api.v2010.account.message import MessageInstance
 from os import getenv, listdir, remove as remove_file
 from os.path import exists, join as path_join
-from requests import get as requests_get
+
 from datetime import timezone, timedelta
-from typing import List, Union
-import aiohttp
-import asyncio
+
+from twilio.rest import Client
+from twilio.rest.api.v2010.account.message import MessageInstance
+
+from requests import get as requests_get
+
+from aiohttp import BasicAuth, ClientSession
+from asyncio import run as run_async, ensure_future, gather as gather_futures
+
+from typing import List, Union, Coroutine
 
 
 def get_client(ids=None)->Client:
@@ -86,7 +91,7 @@ def extract_audio(message:MessageInstance, client:Client, cache_dir:str='voiceno
       return f"Message does not contain an audio file. Content-type header: {content_type}"
 
 
-def fetch_voicenotes(client:Client=None):
+def fetch_voicenotes(client:Client=None)->List[str]:
    if client is None:
       client = get_client()
 
@@ -98,7 +103,7 @@ def fetch_voicenotes(client:Client=None):
    return log
 
 
-def clear_cache(cache_dir:str='voicenotes/fetched') -> str:
+def clear_cache(cache_dir:str='voicenotes/fetched') -> List[str]:
    log = []
    for filename in listdir(cache_dir):
       try:
@@ -110,10 +115,10 @@ def clear_cache(cache_dir:str='voicenotes/fetched') -> str:
 
 
 ### ASYNC ###
-async def extract_audio_async(session, message:MessageInstance, client:Client, cache_dir:str='voicenotes/fetched') -> str:
+async def extract_audio_async(session:ClientSession, message:MessageInstance, client:Client, cache_dir:str='voicenotes/fetched'):
    media_item = client.messages(message.sid).media.list()[0]
    media_url = f'https://api.twilio.com{media_item.uri}'.replace('.json', '')
-   auth = aiohttp.BasicAuth(client.account_sid, client.password)
+   auth = BasicAuth(client.account_sid, client.password)
 
    async with session.get(media_url, auth=auth) as response:
       #if status_code:= response.status_code != 200:
@@ -138,17 +143,18 @@ async def extract_audio_async(session, message:MessageInstance, client:Client, c
          return f"Message does not contain an audio file. Content-type header: {content_type}"
    
 
-async def fetch_voicenotes_async(client:Client=None):
+async def fetch_voicenotes_async(client:Client=None)->Coroutine[None,None,List[str]]:
    if client is None:
       client = get_client()
    messages = fetch_media_messages(client)
-   async with aiohttp.ClientSession() as session:
+   async with ClientSession() as session:
       tasks = []
       for msg in messages:
-         tasks.append(asyncio.ensure_future(extract_audio_async(session, msg, client)))
-      log = await asyncio.gather(*tasks)
+         tasks.append(ensure_future(extract_audio_async(session, msg, client)))
+      log = await gather_futures(*tasks)
       return log
 
-def async_fetch():
-   log = asyncio.run(fetch_voicenotes_async())
+
+def async_fetch() -> List[str]:
+   log = run_async(fetch_voicenotes_async())
    return log
