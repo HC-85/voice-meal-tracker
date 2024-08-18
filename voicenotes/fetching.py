@@ -14,7 +14,7 @@ from asyncio import run as run_async, ensure_future, gather as gather_futures
 from typing import List, Coroutine, Dict
 
 
-def extract_audio_sync(message:MessageInstance, client:Client, cache_dir:str='voicenotes/vn_cache') -> str:
+def extract_audio_sync(message:MessageInstance, client:Client, cache_dir:str='vn_cache') -> str:
    media_item = client.messages(message.sid).media.list()[0]
    media_url = f'https://api.twilio.com{media_item.uri}'.replace('.json', '')
    response = requests_get(media_url, auth=(client.account_sid, client.password))
@@ -93,22 +93,22 @@ def get_timestamp(message:MessageInstance, tz: timezone | str | None = None) -> 
    return timestamp
 
 
-def clear_cache(cache_dir:str='voicenotes/vn_cache') -> List[str]:
-   log = []
+def clear_cache(cache_dir:str='vn_cache') -> List[str]:
+   logs = []
    for filename in listdir(cache_dir):
       try:
          remove_file(path_join(cache_dir, filename))
-         log.append(f'Successfully removed {filename}')
+         logs.append(f'Successfully removed {filename}')
       except:
-         log.append(f'Unable to remove {filename}')
-   return log
+         logs.append(f'Unable to remove {filename}')
+   return logs
 
 
 ### ASYNC ###
 async def extract_audio(session:ClientSession,
                         message:MessageInstance, 
                         auth:BasicAuth,
-                        cache_dir:str='voicenotes/vn_cache'):
+                        cache_dir:str='vn_cache'):
 
    if message.num_media == '0':
       return f"Message {message.sid} contains no media."
@@ -138,16 +138,16 @@ async def extract_audio(session:ClientSession,
          return f"Message does not contain an audio file. Content-type header: {content_type}"
    
 
-async def fetch_voicenotes(ids: Dict[str, str] | None = None)->Coroutine[None,None,List[str]]:
+async def fetch(ids: Dict[str, str] | None = None)->Coroutine[None,None,List[str]]:
    client, auth = get_client(ids, return_auth=True)
    async with ClientSession() as session:
       tasks = []
       for message in client.messages.stream():
          tasks.append(ensure_future(extract_audio(session, message, auth)))
-      log = await gather_futures(*tasks)
-      return log
+      logs = await gather_futures(*tasks)
+      return logs
 
 
-def fetch() -> List[str]:
-   log = run_async(fetch_voicenotes())
-   return log
+def run_fetch() -> List[str]:
+   logs = run_async(fetch())
+   return logs
