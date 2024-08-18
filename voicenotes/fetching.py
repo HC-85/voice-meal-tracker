@@ -26,7 +26,7 @@ def extract_audio_sync(message:MessageInstance, client:Client, cache_dir:str='vn
       file_extension = response.headers['Content-Type'].split('/')[1] 
       timestamp = get_timestamp(message)      
       filename = f'{timestamp}_{media_item.sid[:5]}.{file_extension}'
-
+      
       if not exists(file_path := path_join(cache_dir, filename)):
          with open(file_path, 'wb') as f:
             f.write(response.content)

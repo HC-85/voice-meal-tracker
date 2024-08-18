@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .fetching import fetch, clear_cache
+from fetching import fetch, clear_cache
 
 app = FastAPI()
 

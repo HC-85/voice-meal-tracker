@@ -1,0 +1,9 @@
+name: voice-meal-tracker
+
+services:
+  voicenote-fetching:
+    build:
+      context: ./voicenotes
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
