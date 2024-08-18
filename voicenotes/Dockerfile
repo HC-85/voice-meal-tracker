@@ -21,6 +21,6 @@ ENV TWILIO_ACCOUNT_SID=${_TWILIO_ACCOUNT_SID}
 ARG _TWILIO_AUTH_TOKEN
 ENV TWILIO_AUTH_TOKEN=${_TWILIO_AUTH_TOKEN}
 
-EXPOSE 8000:8000
+EXPOSE 8000
 
-ENTRYPOINT ["fastapi", "dev", "api.py"]
+ENTRYPOINT ["fastapi", "dev", "--host", "0.0.0.0", "--port", "8000", "api.py"]
