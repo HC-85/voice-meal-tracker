@@ -1,5 +1,5 @@
 from os import getenv, listdir, remove as remove_file
-from os.path import exists, join as path_join
+from os.path import exists, join as path_join, dirname
 
 from datetime import timezone, timedelta
 
@@ -14,42 +14,7 @@ from asyncio import run as run_async, ensure_future, gather as gather_futures
 from typing import List, Coroutine, Dict
 
 
-def extract_audio_sync(message:MessageInstance, client:Client, cache_dir:str='vn_cache') -> str:
-   media_item = client.messages(message.sid).media.list()[0]
-   media_url = f'https://api.twilio.com{media_item.uri}'.replace('.json', '')
-   response = requests_get(media_url, auth=(client.account_sid, client.password))
-   
-   if status_code:= response.status_code != 200:
-      return f"Status code: {status_code}"
-
-   if content_type:= response.headers['Content-Type'].startswith('audio/'):
-      file_extension = response.headers['Content-Type'].split('/')[1] 
-      timestamp = get_timestamp(message)      
-      filename = f'{timestamp}_{media_item.sid[:5]}.{file_extension}'
-      
-      if not exists(file_path := path_join(cache_dir, filename)):
-         with open(file_path, 'wb') as f:
-            f.write(response.content)
-
-         return f'File saved: {filename}'
-      
-      else:
-         return f"File {filename} found in cache. Skipping download."
-      
-   else:
-      return f"Message does not contain an audio file. Content-type header: {content_type}"
-
-
-def fetch_voicenotes_sync(client:Client=None)->List[str]:
-   if client is None:
-      client = get_client()
-
-   messages = fetch_media_messages(client)
-   log = []
-   for msg in messages:
-      ret = extract_audio(msg, client)
-      log.append(ret)
-   return log
+CACHE_DIR = path_join(dirname(__file__), 'vn_cache')
 
 
 def get_client(ids=None, return_auth:bool=False)->Client:
@@ -93,7 +58,7 @@ def get_timestamp(message:MessageInstance, tz: timezone | str | None = None) -> 
    return timestamp
 
 
-def clear_cache(cache_dir:str='vn_cache') -> List[str]:
+def clear_cache(cache_dir:str=CACHE_DIR) -> List[str]:
    logs = []
    for filename in listdir(cache_dir):
       try:
@@ -108,7 +73,7 @@ def clear_cache(cache_dir:str='vn_cache') -> List[str]:
 async def extract_audio(session:ClientSession,
                         message:MessageInstance, 
                         auth:BasicAuth,
-                        cache_dir:str='vn_cache'):
+                        cache_dir:str=CACHE_DIR):
 
    if message.num_media == '0':
       return f"Message {message.sid} contains no media."
@@ -116,8 +81,8 @@ async def extract_audio(session:ClientSession,
    media_url = f'https://api.twilio.com{message.media.list()[0].uri}'.replace('.json', '')
    
    async with session.get(media_url, auth=auth) as response:
-      #if status_code:= response.status_code != 200:
-      #   return f"Status code: {status_code}"
+      if (status:= response.status) != 200:
+         return f"Status code: {status}"
 
       if content_type:= response.headers['Content-Type'].startswith('audio/'):
          file_extension = response.headers['Content-Type'].split('/')[1] 
