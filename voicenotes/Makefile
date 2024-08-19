@@ -15,11 +15,15 @@ run:
     voicenote-fetching
 
 fetch: 
-	curl -X POST http://127.0.0.1:8000/fetch
+	@ while ! curl --silent -X GET http://127.0.0.1:8000/health | grep "OK" > /dev/null; do\
+		sleep 0.1; \
+	done; \
+	curl -X POST http://127.0.0.1:8000/fetch > /dev/null
 
+clear-all: clear-vn clear-docker
 
 clear-vn:
-	curl -X DELETE http://127.0.0.1:8000/clear-cache
+	@curl -X DELETE http://127.0.0.1:8000/clear-cache > /dev/null
 
 clear-docker: clear-containers clear-images
 
@@ -38,3 +42,6 @@ clear-containers:
 	else \
 		echo $ "Already clean."; \
 	fi
+
+healthcheck:
+	@curl -X GET http://127.0.0.1:8000/health

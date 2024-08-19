@@ -13,3 +13,7 @@ async def fetch_endpoint():
 def clear_cache_endpoint():
     logs = clear_cache()
     return {"logs": logs}
+
+@app.get("/health")
+def healthcheck():
+    return "OK"
