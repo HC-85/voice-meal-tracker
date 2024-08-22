@@ -1,5 +1,5 @@
 /**/__pycache__/
-*.txt
 *.db
 *.ogg
 voicenotes/vn_cache/*
+*cache*

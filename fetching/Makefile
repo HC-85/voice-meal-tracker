@@ -2,14 +2,11 @@
 
 CACHE_DIR=/fetching/vn_cache
 
-
 app: build-app run-app fetch
 
 build-app:
 	@docker build \
 	--target app-loop \
-    --build-arg _TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID} \
-    --build-arg _TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN} \
     -t vn-fetch-app .
 
 run-app:
@@ -24,15 +21,15 @@ fetch:
 	@ while ! curl --silent -X GET http://127.0.0.1:8000/health | grep "OK" > /dev/null; do\
 		sleep 0.1; \
 	done; \
-	curl -X POST http://127.0.0.1:8000/fetch > /dev/null
+ 		curl -X POST http://127.0.0.1:8000/fetch \
+    	-H "Content-Type: application/json" \
+    	-d '{"username": "${TWILIO_ACCOUNT_SID}", "password": "${TWILIO_AUTH_TOKEN}"}'
 
 interactive: build-interactive run-interactive
 
 build-interactive:
 	@docker build \
 	--target interactive \
-    --build-arg _TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID} \
-    --build-arg _TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN} \
     -t vn-fetch-interactive .
 
 run-interactive:
@@ -41,7 +38,6 @@ run-interactive:
     -p 8000:8000 \
     -v /workspaces/voice-meal-tracker${CACHE_DIR}:/app/vn_cache \
     -it vn-fetch-interactive
-
 
 clear-all: clear-vn clear-docker
 

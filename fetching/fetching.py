@@ -6,31 +6,27 @@ from datetime import timezone, timedelta
 from twilio.rest import Client
 from twilio.rest.api.v2010.account.message import MessageInstance
 
-from requests import get as requests_get
-
 from aiohttp import BasicAuth, ClientSession
 from asyncio import run as run_async, ensure_future, gather as gather_futures
 
-from typing import List, Coroutine, Dict
+from typing import List, Coroutine
+
+from pydantic import BaseModel
 
 
 CACHE_DIR = path_join(dirname(__file__), 'vn_cache')
 
+class Credentials(BaseModel):
+    username: str
+    password: str
 
-def get_client(ids=None, return_auth:bool=False)->Client:
-   match ids:   
-      case {'username': str(_), 'password': str(_)}:
-          pass
-      case None:
-        ids = {
-           'username': getenv('TWILIO_ACCOUNT_SID'),
-           'password': getenv('TWILIO_AUTH_TOKEN')
-           }
-      case _:
-          raise ValueError(f"Unexpected format: {ids}")
-   client = Client(**ids)
+
+def get_client(credentials:Credentials, return_auth:bool=False)->Client:
+   TWILIO_ACCOUNT_SID = credentials.username
+   TWILIO_AUTH_TOKEN = credentials.password
+   client = Client(username=TWILIO_ACCOUNT_SID, password=TWILIO_AUTH_TOKEN)
    if return_auth:
-      auth = BasicAuth(*ids.values())
+      auth = BasicAuth(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
       return client, auth
    else:
       return client
@@ -44,14 +40,12 @@ def is_valid_int_string(s:str)->bool:
       return False
 
 
-def get_timestamp(message:MessageInstance, tz: timezone | str | None = None) -> str:
+def get_timestamp(message:MessageInstance, tz: timezone|str = 'UTC-6') -> str:
    match tz:
       case timezone(_):
          pass
       case str() as s if is_valid_int_string(''.join(offset:=s[-2:])) and s.startswith('UTC'):
         tz = timezone(timedelta(hours=int(offset)))
-      case None:
-         tz = timezone(timedelta(hours=-6))
       case _:
          raise ValueError(f"Invalid timezone: {tz}")
    timestamp = message.date_sent.astimezone(tz).strftime("%Y-%m-%d_%H-%M")
@@ -69,7 +63,6 @@ def clear_cache(cache_dir:str=CACHE_DIR) -> List[str]:
    return logs
 
 
-### ASYNC ###
 async def extract_audio(session:ClientSession,
                         message:MessageInstance, 
                         auth:BasicAuth,
@@ -103,15 +96,15 @@ async def extract_audio(session:ClientSession,
          return f"Message does not contain an audio file. Content-type header: {content_type}"
    
 
-async def fetch(ids: Dict[str, str] | None = None)->Coroutine[None,None,List[str]]:
-   client, auth = get_client(ids, return_auth=True)
+async def fetch(credentials: Credentials)->Coroutine[None,None,List[str]]:
+   client, auth = get_client(credentials, return_auth=True)
    async with ClientSession() as session:
       tasks = []
       for message in client.messages.stream():
          tasks.append(ensure_future(extract_audio(session, message, auth)))
       logs = await gather_futures(*tasks)
       return logs
-
+   
 
 def run_fetch() -> List[str]:
    logs = run_async(fetch())

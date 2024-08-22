@@ -15,12 +15,6 @@ RUN apk upgrade && \
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-ARG _TWILIO_ACCOUNT_SID
-ENV TWILIO_ACCOUNT_SID=${_TWILIO_ACCOUNT_SID}
-
-ARG _TWILIO_AUTH_TOKEN
-ENV TWILIO_AUTH_TOKEN=${_TWILIO_AUTH_TOKEN}
-
 EXPOSE 8000
 
 FROM main AS app-loop
