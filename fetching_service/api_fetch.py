@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from fetching import fetch, clear_cache
+from app_fetch import fetch, clear_cache
 
 app = FastAPI()
 

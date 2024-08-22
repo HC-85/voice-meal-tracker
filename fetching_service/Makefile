@@ -1,6 +1,6 @@
 #TODO: FIX clear-containers
 
-CACHE_DIR=/fetching/vn_cache
+CACHE_DIR=/fetching_service/vn_cache
 
 app: build-app run-app fetch
 
