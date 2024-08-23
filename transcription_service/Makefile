@@ -28,3 +28,11 @@ run-interactive:
     -p 8000:8000 \
     -v /workspaces/voice-meal-tracker${CACHE_DIR}:/app/vn_cache \
     -it transcription-interactive
+
+transcribe:
+	@ while ! curl --silent -X POST http://127.0.0.1:8000/health | grep "OK" > /dev/null; do\
+		sleep 0.1; \
+	done; \
+ 		curl -X POST http://127.0.0.1:8000/transcribe \
+    	-H "Content-Type: application/json" \
+    	-d '{"file_path": "/vn_cache/2024-06-06_01-09_MM4934b92d3bc05bf9724195031b693ad1.ogg"}'
