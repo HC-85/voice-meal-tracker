@@ -1,14 +1,9 @@
 {
-	"build": {
-		"dockerfile": "Dockerfile"
-	},
-	"runArgs": ["--device=/dev/net/tun"],
-	"features": {
-		"ghcr.io/devcontainers-contrib/features/apt-packages:1": {},
-		"ghcr.io/tailscale/codespace/tailscale": {"version": "latest"}
-	},
-	"postCreateCommand": [
-		"chmod +x /workspaces/Nutrition-Logger/mount_local.sh",
-		"pip uninstall -y scipy"
-	]
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "remoteEnv": {
+        "KAGGLE_USERNAME": "${localEnv:KAGGLE_USERNAME}",
+        "KAGGLE_KEY": "${localEnv:KAGGLE_KEY}"
+    }
 }

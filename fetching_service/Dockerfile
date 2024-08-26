@@ -6,9 +6,9 @@ ENV SERVICE=fetch
 WORKDIR /app
 RUN mkdir vn_cache
 COPY api_${SERVICE}.py \
-     app_${SERVICE}.py \
-     requirements_${SERVICE}.txt \
-     /app
+    app_${SERVICE}.py \
+    requirements_${SERVICE}.txt \
+    /app/
 
 RUN apk upgrade && \
     apk add --no-cache git

@@ -1,0 +1,17 @@
+{
+  "id": "hugoce/vmt-training",
+  "id_no": 64781295,
+  "title": "vmt-training",
+  "code_file": "vmt-training.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": true,
+  "keywords": [],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": [],
+  "model_sources": []
+}
