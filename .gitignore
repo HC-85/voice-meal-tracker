@@ -3,3 +3,4 @@
 *.ogg
 voicenotes/vn_cache/*
 *cache*
+transcription_service/transcriptions/*
