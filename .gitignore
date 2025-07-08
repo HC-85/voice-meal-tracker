@@ -1,6 +1,8 @@
 /**/__pycache__/
 *.db
 *.ogg
-voicenotes/vn_cache/*
+data/raw/voicenotes*
 *cache*
-transcription_service/transcriptions/*
+.dagster
+**/.env
+uv.lock
