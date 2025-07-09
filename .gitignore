@@ -1,7 +1,7 @@
 /**/__pycache__/
 *.db
 *.ogg
-data/raw/voicenotes*
+data/*
 *cache*
 .dagster
 **/.env
