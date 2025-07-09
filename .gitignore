@@ -5,4 +5,5 @@ data/raw/voicenotes*
 *cache*
 .dagster
 **/.env
+**/.venv
 uv.lock
