@@ -1,9 +1,62 @@
 name: voice-meal-tracker
 
 services:
-  voicenote-fetching:
-    build:
-      context: ./voicenotes
-      dockerfile: Dockerfile
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: voicemeal
     ports:
-      - "8000:8000"
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "user"]
+      interval: 2s
+      timeout: 2s
+      retries: 10
+
+  mongodb:
+    image: mongo:7
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    volumes:
+      - mongo_data:/data/db
+    
+  fetch_job:
+    build:
+      context: ./fetching
+      dockerfile: Dockerfile
+      target: fetch_job
+    volumes:
+      - ./fetched_voicenotes:/app/fetched_voicenotes
+    environment:
+      VOICENOTES_DIR: /app/fetched_voicenotes
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
+      POSTGRES_DSN: postgresql+asyncpg://postgres:password@db:5432/voicemeal
+    depends_on:
+      db:
+        condition: service_healthy
+
+  transcription:
+    build:
+      context: ./transcription
+      dockerfile: Dockerfile
+      target: app-loop
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./fetched_voicenotes:/app/fetched_voicenotes
+      - ./transcribed_voicenotes:/app/transcribed_voicenotes
+    environment:
+      TRANSCRIPTIONS_DIR: /app/transcribed_voicenotes
+
+volumes:
+  pgdata:
+  mongo_data:
